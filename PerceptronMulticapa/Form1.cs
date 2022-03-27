@@ -78,8 +78,32 @@ namespace PerceptronMulticapa
                 if(numeroLinea <= (numeroPatrones + 4) && numeroLinea > 4)
                 {
                     //min6.45
+                    if(linea != "")
+                    {
+                        datos = linea.Split('\t');
+                        for (posJ = 0; posJ<arquitecturaRed[1]; posJ++)
+                        {
+                            patronesEntrada[posI, posJ] = Convert.ToDouble(datos[posJ]);
+                        }
+                        posI++;
+                    }
                 }
+                if(numeroLinea> numeroPatrones + 5 && posicionSalida < numeroPatrones)
+                {
+                    if (linea != "")
+                    {
+                        datos = linea.Split('\t');
+                        for (posJ = 0; posJ < arquitecturaRed[1]; posJ++)
+                        {
+                            patronesSalida[posicionSalida, posJ] = Convert.ToDouble(datos[posJ]);
+                        }
+                        posicionSalida++;
+                    }
+                }
+                numeroLinea++;
+                linea = sr.ReadLine();
             }
+            sr.Close();
         }
     }
 }
