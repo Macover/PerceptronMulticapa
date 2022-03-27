@@ -144,7 +144,52 @@ namespace PerceptronMulticapa
             }
             errorCuadratico = temp / 2;
             sumaErrores = errorCuadratico + sumaErrores;
+        } 
+        public void errorAprendisaje()
+        {
+            errorEntrenamiento = sumaErrores / numeroPatrones;
+            sumaErrores = 0;
         }
-        //part 7
+        public void retropropagacion(int patron)
+        {
+            calcularDeltas(patron);
+            calcularPesosYUmbrales();
+        }
+        private void calcularPesosYUmbrales()
+        {            
+            for (int c = 1; c <=C-1; c++)
+            {
+                for (int i = 1; i < n[c+1]; i++)
+                {
+                    for (int j = 1; j <=n[c]; j++)
+                    {
+                        w[c, j, i] = w[c, j, i] + alfa * delta[c + 1, i] * a[c, j];
+                    }
+                    u[c + 1, i] = u[c + 1, i] + alfa * delta[c + 1, i];
+                }
+            }                
+        }
+        private void calcularDeltas(int patron)
+        {
+            double suma = 0.0;
+            //caso a
+            for (int i = 1; i <= n[C]; i++)
+            {
+                delta[C, i] = (s[patron, i - 1] - a[C, i] * a[C, i] * (1 - a[C, i]));
+            }
+            //caso b
+            for (int c = C-1; c > 1; c--)
+            {
+                for (int j = 1; j <= n[c]; j++)
+                {
+                    suma = 0.0;
+                    for (int i = 1; i < n[c+1]; i++) 
+                    {
+                        suma += delta[c + 1, i] * w[c, j, i];
+                    }
+                    delta[c, j] = a[c, j] * (1 - a[c, j]) * suma;
+                }
+            }
+        }
     }
 }

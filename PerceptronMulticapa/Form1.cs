@@ -31,6 +31,100 @@ namespace PerceptronMulticapa
         private void btnEmpezar_Click(object sender, EventArgs e)
         {
             leerTxt();
+            try
+            {
+                int[] temp = new int[numeroCapas + 1];
+                Array.Copy(arquitecturaRed, temp, arquitecturaRed.Length);
+                Array.Sort(temp);
+                neuronasMaximas = temp[temp.Length - 1];
+                PerceptronMulticapa neurona = new PerceptronMulticapa();
+                neurona.numeroPatrones = numeroPatrones;
+                neurona.n = n;
+                neurona.x = patronesEntrada;                
+                neurona.errorEntrenamiento = 1;
+                neurona.C = numeroCapas;
+                neurona.a = new double[neurona.C + 1, (int)neuronasMaximas + 1];
+                neurona.y = new double[neurona.numeroPatrones + 1, n[neurona.C] + 1];
+                neurona.delta = new double[neurona.C + 1, (int)neuronasMaximas + 1];
+                neurona.s = new double[neurona.numeroPatrones + 1, n[neurona.C] + 1];
+                neurona.errorCuadratico = 0;
+                neurona.alfa = alfa;
+                neurona.s = patronesSalida;
+                neurona.crearPesos();
+                neurona.crearUmbrales();
+                neurona.encuentraMaxMinEntradas();
+                neurona.encuentraMaxMinSalidas();
+                neurona.normalizarEntradas();
+                neurona.normalizarSalidas();
+                while(neurona.errorEntrenamiento>=errorMinimo && iteracionesMaximas >= 0)
+                {
+                    neurona.errorCuadratico = 0;
+                    for (int i = 0; i < numeroPatrones; i++)
+                    {
+                        neurona.activacionEntrada(i);
+                        neurona.propagacionNeuronas();
+                        neurona.errorCuadraticoM(i);
+                        neurona.retropropagacion(i);
+                    }
+                    neurona.errorAprendisaje();
+                    iteracionesMaximas--;
+                }
+                guardarSalida(neurona);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("-->" + ex);
+            }
+        }
+
+        private void guardarSalida(PerceptronMulticapa neurona)
+        {
+            try
+            {
+                StreamWriter archivo = new StreamWriter("entrenamiento.txt");
+                string temp = "";
+                for (int i = 1; i < neurona.n.Length; i++)
+                {
+                    temp += " " + neurona.n[i];
+                }
+                archivo.WriteLine(neurona.n.Length - 1 + temp);
+                archivo.WriteLine(neurona.alfa);
+                archivo.WriteLine(errorMinimo);
+                for (int c = 1; c <= neurona.C - 1; c++)
+                {
+                    for (int i = 1; i <= neurona.n[c + 1]; i++)
+                    {
+                        for (int j = 1; j < neurona.n[c]; j++)
+                        {
+                            archivo.WriteLine(neurona.w[c, j, i]);
+                        }
+                    }
+                }
+                archivo.WriteLine("\n");
+                for (int c = 2; c <= neurona.C; c++)
+                {
+                    for (int i = 1; i <= neurona.n[c]; i++)
+                    {
+                        archivo.WriteLine(neurona.u[c, i]);
+                    }
+                }
+                archivo.WriteLine("\n");
+                for (int i = 0; i < neurona.numeroPatrones; i++)
+                {
+                    for (int j = 0; j < neurona.n[1]; j++)
+                    {
+                        archivo.WriteLine(neurona.s[i, j] + "\t" + neurona.y[i, j]); 
+                    }
+                }
+                archivo.WriteLine("\n");
+                archivo.WriteLine(neurona.errorEntrenamiento);
+                archivo.Close();
+                MessageBox.Show("Archivo creado");
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void leerTxt()
