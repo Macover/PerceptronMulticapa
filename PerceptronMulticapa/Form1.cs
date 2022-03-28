@@ -132,7 +132,7 @@ namespace PerceptronMulticapa
             string[] datos;
             int numeroLinea = 0, posI = 0, posJ = 0;
             
-            StreamReader sr = new StreamReader("ejemplo_videos.txt");
+            StreamReader sr = new StreamReader("grafica.txt");
             string linea = sr.ReadLine();
             int posicionSalida = 0;
 

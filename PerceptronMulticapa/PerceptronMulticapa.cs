@@ -61,7 +61,7 @@ namespace PerceptronMulticapa
             {
                 for (int i = 1; i <= n[c + 1]; i++)
                 {
-                    for (int j = 1; j < n[c]; j++)
+                    for (int j = 1; j <= n[c]; j++)
                     {
                         w[c, j, i] = rand.NextDouble();
                     }
@@ -70,7 +70,7 @@ namespace PerceptronMulticapa
         }
         public double normalizacion(double valor, double _maximo, double _minimo)
         {
-            return (1 / (_maximo - _minimo) * (valor - _minimo));
+            return (1 / (_maximo - _minimo)) * (valor - _minimo);
         }
         public void normalizarEntradas()
         {
@@ -159,7 +159,7 @@ namespace PerceptronMulticapa
         {            
             for (int c = 1; c <=C-1; c++)
             {
-                for (int i = 1; i < n[c+1]; i++)
+                for (int i = 1; i <= n[c+1]; i++)
                 {
                     for (int j = 1; j <=n[c]; j++)
                     {
@@ -175,7 +175,7 @@ namespace PerceptronMulticapa
             //caso a
             for (int i = 1; i <= n[C]; i++)
             {
-                delta[C, i] = (s[patron, i - 1] - a[C, i] * a[C, i] * (1 - a[C, i]));
+                delta[C, i] = (s[patron, i - 1] - a[C, i]) * a[C, i] * (1 - a[C, i]);
             }
             //caso b
             for (int c = C-1; c > 1; c--)
@@ -183,7 +183,7 @@ namespace PerceptronMulticapa
                 for (int j = 1; j <= n[c]; j++)
                 {
                     suma = 0.0;
-                    for (int i = 1; i < n[c+1]; i++) 
+                    for (int i = 1; i <= n[c+1]; i++) 
                     {
                         suma += delta[c + 1, i] * w[c, j, i];
                     }
