@@ -13,9 +13,15 @@ namespace PerceptronMulticapa
         public double[,] x { get; set; } //patrones de entrada
         public double[,] y { get; set; } //salidas
         public double[,] s { get; set; } //patrones deseados
-        public double[,] a { get; set; } //funciona como la activacion
-        public double[,,] w { get; set; }//pesos
-        public double[,] u { get; set; } //umbrales
+        public double[,] a { get; set; } //funciona como la activacion       
+        public double[,,] w { get; set; }//pesos        
+        public double[,] u { get; set; } //umbrales       
+        //Valores para datos entrada tiempo real
+        public double[,] uF { get; set; } //umbrales
+        public double[,,] wF { get; set; }//pesos
+        public double[,] aF { get; set; } //funciona como la activacion
+        //public double[,] xF { get; set; } //patrones de entrada
+        public double[,] yF { get; set; } //salidas   
         public int numeroPatrones { get; set; } //numeroPatrones
         /*se utilizan para normalizar los patrones y sean
          * patrones entre 0 y 1 para poder ocupar la funcion sigmoidal
@@ -29,6 +35,8 @@ namespace PerceptronMulticapa
         public double alfa { get; set; }
         public double[,] delta { get; set; }
 
+        double resultado = 0.0;
+        double[,] xF = new double[1, 1];
         Random rand = new Random();
         double sumaErrores = 0.0;
 
@@ -46,6 +54,7 @@ namespace PerceptronMulticapa
         public void crearUmbrales()
         {
             u = new double[C + 1, n.Max() + 1];
+            uF = new double[C + 1, n.Max() + 1];
             for (int c = 2; c <= C; c++)
             {
                 for (int i = 1; i <= n[c]; i++)
@@ -57,6 +66,7 @@ namespace PerceptronMulticapa
         public void crearPesos()
         {
             w = new double[C + 1, n.Max() + 1, n.Max() + 1];
+            wF = new double[C + 1, n.Max() + 1, n.Max() + 1];
             for (int c = 1; c <= C - 1; c++)
             {
                 for (int i = 1; i <= n[c + 1]; i++)
@@ -164,8 +174,11 @@ namespace PerceptronMulticapa
                     for (int j = 1; j <=n[c]; j++)
                     {
                         w[c, j, i] = w[c, j, i] + alfa * delta[c + 1, i] * a[c, j];
+                        wF[c, j, i] = w[c, j, i];
+
                     }
                     u[c + 1, i] = u[c + 1, i] + alfa * delta[c + 1, i];
+                    uF[c + 1, i] = u[c + 1, i];
                 }
             }                
         }
@@ -190,6 +203,46 @@ namespace PerceptronMulticapa
                     delta[c, j] = a[c, j] * (1 - a[c, j]) * suma;
                 }
             }
+        }
+        //Propagar para datos sensor
+        public void normalizarEntradasF(double var)
+        {
+            xF[0, 0] = var;
+            double[] numeros = new double[numeroPatrones];
+            for (int i = 0; i < numeros.Length; i++)
+            {
+                xF[i, 0] = normalizacion(xF[i, 0], maximoEntradas, minimoEntradas);
+            }
+        }
+        public void activacionEntradaF(int patron)
+        {
+            for (int i = 1; i <= n[1]; i++)
+            {
+                aF[1, i] = xF[patron, i - 1];
+            }
+        }
+        public void propagacionNeuronasF(int nPatron)
+        {
+            double suma = 0.0;
+            for (int c = 2; c <= C; c++)
+            {
+                for (int i = 1; i <= n[c]; i++)
+                {
+                    suma = 0.0;
+                    for (int j = 1; j <= n[c - 1]; j++)
+                    {
+                        suma += wF[c - 1, j, i] * aF[c - 1, j];
+                    }
+                    aF[c, i] = suma + uF[c, i];
+                    aF[c, i] = sigmoidal(aF[c, i]);
+                }
+            }
+            for (int i = 1; i <= n[C]; i++)
+            {
+                yF[nPatron, 0] = aF[C, i];
+                resultado = normalizacion(yF[nPatron, 0], maximoSalidas, minimoSalidas);
+            }
+
         }
     }
 }

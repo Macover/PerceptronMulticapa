@@ -14,6 +14,7 @@ namespace PerceptronMulticapa
 {
     public partial class Form1 : Form
     {
+        PerceptronMulticapa neurona = new PerceptronMulticapa();
 
         int[] arquitecturaRed;
         double[,] patronesEntrada;
@@ -59,6 +60,26 @@ namespace PerceptronMulticapa
             this.BeginInvoke(new lineReceivedEvent(lineReceived), Recibidos);
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            double var = Double.Parse(textBox1.Text);
+            //
+            double[,] patronesEntradaF = new Double[1, 1];          
+            //
+            neurona.numeroPatrones = 1;
+           
+            neurona.aF = new double[neurona.C + 1, (int)neuronasMaximas + 1];
+            neurona.yF = new double[neurona.numeroPatrones + 1, n[neurona.C] + 1];
+            neurona.normalizarEntradasF(var);
+            for (int i = 0; i < neurona.numeroPatrones; i++)
+            {
+                neurona.activacionEntradaF(i);
+                neurona.propagacionNeuronasF(i);
+            }
+
+        }
+
         private delegate void lineReceivedEvent(string line);
         private void lineReceived(string line)
         {
@@ -74,7 +95,7 @@ namespace PerceptronMulticapa
                 Array.Copy(arquitecturaRed, temp, arquitecturaRed.Length);
                 Array.Sort(temp);
                 neuronasMaximas = temp[temp.Length - 1];
-                PerceptronMulticapa neurona = new PerceptronMulticapa();
+                
                 neurona.numeroPatrones = numeroPatrones;
                 neurona.n = n;
                 neurona.x = patronesEntrada;                
