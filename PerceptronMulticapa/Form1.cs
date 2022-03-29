@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +24,47 @@ namespace PerceptronMulticapa
         int[] n;
         double alfa = 0.0, errorMinimo = 0.0, neuronasMaximas = 0.0;
 
+        //SERIAL
+        SerialPort serialPort1;        
+        string Recibidos;
+        double distanciaSerial = 0;       
+        
         public Form1()
         {
             InitializeComponent();
+            //PUERTO SERIAL
+            serialPort1 = new SerialPort();
+            serialPort1.PortName = "COM3";
+            serialPort1.BaudRate = 9600;
+            serialPort1.DtrEnable = true;
+            serialPort1.ReadTimeout = 500;
+            try
+            {
+                serialPort1.Open();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Revisa el ESP32");
+            }
+        }        
+        private void btnGetPatrones_Click(object sender, EventArgs e)
+        {
+            serialPort1.DataReceived += serialPort1_DataReceived;
+            MessageBox.Show(distanciaSerial + "distancia");
         }
 
+        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            Recibidos = serialPort1.ReadLine();
+            this.BeginInvoke(new lineReceivedEvent(lineReceived), Recibidos);
+
+        }
+        private delegate void lineReceivedEvent(string line);
+        private void lineReceived(string line)
+        {
+            distanciaSerial = Convert.ToDouble(line);
+            //label1.Text = line;
+        }
         private void btnEmpezar_Click(object sender, EventArgs e)
         {
             leerTxt();
@@ -119,6 +156,7 @@ namespace PerceptronMulticapa
                 archivo.WriteLine("\n");
                 archivo.WriteLine(neurona.errorEntrenamiento);
                 archivo.Close();
+                btnGetPatrones.Enabled = true;
                 MessageBox.Show("Archivo creado");
             }
             catch (Exception ex)

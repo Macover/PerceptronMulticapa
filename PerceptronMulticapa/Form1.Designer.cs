@@ -30,11 +30,12 @@ namespace PerceptronMulticapa
         private void InitializeComponent()
         {
             this.btnEmpezar = new System.Windows.Forms.Button();
+            this.btnGetPatrones = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnEmpezar
             // 
-            this.btnEmpezar.Location = new System.Drawing.Point(126, 47);
+            this.btnEmpezar.Location = new System.Drawing.Point(118, 39);
             this.btnEmpezar.Name = "btnEmpezar";
             this.btnEmpezar.Size = new System.Drawing.Size(75, 23);
             this.btnEmpezar.TabIndex = 0;
@@ -42,11 +43,23 @@ namespace PerceptronMulticapa
             this.btnEmpezar.UseVisualStyleBackColor = true;
             this.btnEmpezar.Click += new System.EventHandler(this.btnEmpezar_Click);
             // 
+            // btnGetPatrones
+            // 
+            this.btnGetPatrones.Enabled = false;
+            this.btnGetPatrones.Location = new System.Drawing.Point(118, 110);
+            this.btnGetPatrones.Name = "btnGetPatrones";
+            this.btnGetPatrones.Size = new System.Drawing.Size(75, 36);
+            this.btnGetPatrones.TabIndex = 1;
+            this.btnGetPatrones.Text = "Pedir patrones";
+            this.btnGetPatrones.UseVisualStyleBackColor = true;
+            this.btnGetPatrones.Click += new System.EventHandler(this.btnGetPatrones_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 267);
+            this.ClientSize = new System.Drawing.Size(320, 193);
+            this.Controls.Add(this.btnGetPatrones);
             this.Controls.Add(this.btnEmpezar);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -57,6 +70,7 @@ namespace PerceptronMulticapa
         #endregion
 
         private System.Windows.Forms.Button btnEmpezar;
+        private System.Windows.Forms.Button btnGetPatrones;
     }
 }
 
