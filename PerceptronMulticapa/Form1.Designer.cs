@@ -29,8 +29,10 @@ namespace PerceptronMulticapa
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnEmpezar = new System.Windows.Forms.Button();
             this.btnGetPatrones = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // btnEmpezar
@@ -71,6 +73,7 @@ namespace PerceptronMulticapa
 
         private System.Windows.Forms.Button btnEmpezar;
         private System.Windows.Forms.Button btnGetPatrones;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
