@@ -20,5 +20,8 @@ void loop() {
     digitalWrite(trigger, LOW);
     tiempo = pulseIn (echo, HIGH);
     distancia = (tiempo / 2) / 29.15;
+    if(distancia > 150){
+      distancia = 150;
+    }
     Serial.println(distancia);
 }
