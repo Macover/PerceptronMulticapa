@@ -240,7 +240,6 @@ namespace PerceptronMulticapa
             for (int i = 1; i <= n[C]; i++)
             {
                 yF[nPatron, 0] = aF[C, i];
-                resultado = normalizacion(yF[nPatron, 0], maximoSalidas, minimoSalidas);
             }
 
         }
