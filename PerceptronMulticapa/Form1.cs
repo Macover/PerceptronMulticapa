@@ -63,7 +63,9 @@ namespace PerceptronMulticapa
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double var = Double.Parse(textBox1.Text);
+            serialPort1.DataReceived += serialPort1_DataReceived;
+            double var = distanciaSerial;
+            lblValorRecibido.Text = "Valor recibido: " + distanciaSerial.ToString();
             //
             double[,] patronesEntradaF = new Double[1, 1];          
             //
@@ -77,6 +79,36 @@ namespace PerceptronMulticapa
                 neurona.activacionEntradaF(i);
                 neurona.propagacionNeuronasF(i);
             }
+            double salidaYPerceptron = neurona.yF[0, 0];
+            lblValorSalida.Text = "Valor salida perceptron: "+neurona.yF[0,0].ToString();
+            string cadenaLabel = "";
+            if(salidaYPerceptron < 0.25)
+            {
+                cadenaLabel = "Muy cerca";
+            }
+            else if(salidaYPerceptron > 0.25 && salidaYPerceptron <= 0.50)
+            {
+                cadenaLabel = "Cerca";
+            }
+            else if (salidaYPerceptron > 0.50 && salidaYPerceptron <= 0.75)
+            {
+                cadenaLabel = "Lejos";
+            }
+            else
+            {
+                cadenaLabel = "Muy Lejos";
+            }
+            lblValorLinguistico.Text = cadenaLabel;
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblValorSalida_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -128,6 +160,7 @@ namespace PerceptronMulticapa
                     iteracionesMaximas--;
                 }
                 guardarSalida(neurona);
+                button1.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -177,7 +210,6 @@ namespace PerceptronMulticapa
                 archivo.WriteLine("\n");
                 archivo.WriteLine(neurona.errorEntrenamiento);
                 archivo.Close();
-                btnGetPatrones.Enabled = true;
                 MessageBox.Show("Archivo creado");
             }
             catch (Exception ex)
@@ -191,7 +223,7 @@ namespace PerceptronMulticapa
             string[] datos;
             int numeroLinea = 0, posI = 0, posJ = 0;
             
-            StreamReader sr = new StreamReader("entrenamiento_sensor.txt");
+            StreamReader sr = new StreamReader("grafica2.txt");
             string linea = sr.ReadLine();
             int posicionSalida = 0;
 

@@ -31,15 +31,16 @@ namespace PerceptronMulticapa
         {
             this.components = new System.ComponentModel.Container();
             this.btnEmpezar = new System.Windows.Forms.Button();
-            this.btnGetPatrones = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.lblValorRecibido = new System.Windows.Forms.Label();
+            this.lblValorSalida = new System.Windows.Forms.Label();
+            this.lblValorLinguistico = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnEmpezar
             // 
-            this.btnEmpezar.Location = new System.Drawing.Point(118, 39);
+            this.btnEmpezar.Location = new System.Drawing.Point(29, 137);
             this.btnEmpezar.Name = "btnEmpezar";
             this.btnEmpezar.Size = new System.Drawing.Size(75, 23);
             this.btnEmpezar.TabIndex = 0;
@@ -47,42 +48,55 @@ namespace PerceptronMulticapa
             this.btnEmpezar.UseVisualStyleBackColor = true;
             this.btnEmpezar.Click += new System.EventHandler(this.btnEmpezar_Click);
             // 
-            // btnGetPatrones
-            // 
-            this.btnGetPatrones.Enabled = false;
-            this.btnGetPatrones.Location = new System.Drawing.Point(118, 110);
-            this.btnGetPatrones.Name = "btnGetPatrones";
-            this.btnGetPatrones.Size = new System.Drawing.Size(75, 36);
-            this.btnGetPatrones.TabIndex = 1;
-            this.btnGetPatrones.Text = "Pedir patrones";
-            this.btnGetPatrones.UseVisualStyleBackColor = true;
-            this.btnGetPatrones.Click += new System.EventHandler(this.btnGetPatrones_Click);
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 38);
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(233, 137);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
+            this.button1.Text = "Pedir X";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // textBox1
+            // lblValorRecibido
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 81);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 3;
+            this.lblValorRecibido.AutoSize = true;
+            this.lblValorRecibido.Location = new System.Drawing.Point(26, 39);
+            this.lblValorRecibido.Name = "lblValorRecibido";
+            this.lblValorRecibido.Size = new System.Drawing.Size(10, 13);
+            this.lblValorRecibido.TabIndex = 3;
+            this.lblValorRecibido.Text = ".";
+            // 
+            // lblValorSalida
+            // 
+            this.lblValorSalida.AutoSize = true;
+            this.lblValorSalida.Location = new System.Drawing.Point(26, 68);
+            this.lblValorSalida.Name = "lblValorSalida";
+            this.lblValorSalida.Size = new System.Drawing.Size(10, 13);
+            this.lblValorSalida.TabIndex = 4;
+            this.lblValorSalida.Text = ".";
+            this.lblValorSalida.Click += new System.EventHandler(this.lblValorSalida_Click);
+            // 
+            // lblValorLinguistico
+            // 
+            this.lblValorLinguistico.AutoSize = true;
+            this.lblValorLinguistico.Location = new System.Drawing.Point(26, 98);
+            this.lblValorLinguistico.Name = "lblValorLinguistico";
+            this.lblValorLinguistico.Size = new System.Drawing.Size(10, 13);
+            this.lblValorLinguistico.TabIndex = 5;
+            this.lblValorLinguistico.Text = ".";
+            this.lblValorLinguistico.Click += new System.EventHandler(this.label1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(320, 193);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.lblValorLinguistico);
+            this.Controls.Add(this.lblValorSalida);
+            this.Controls.Add(this.lblValorRecibido);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnGetPatrones);
             this.Controls.Add(this.btnEmpezar);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -94,10 +108,11 @@ namespace PerceptronMulticapa
         #endregion
 
         private System.Windows.Forms.Button btnEmpezar;
-        private System.Windows.Forms.Button btnGetPatrones;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label lblValorRecibido;
+        private System.Windows.Forms.Label lblValorSalida;
+        private System.Windows.Forms.Label lblValorLinguistico;
     }
 }
 

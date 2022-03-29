@@ -1,5 +1,4 @@
 #include <ArduinoJson.h>
-#include <analogWrite.h>
 //Variables
 int trigger = 5;
 int echo = 18;
